@@ -1,1 +1,1 @@
-Sitemap: https://victor-marchesini.github.io/covid/sitemap.xml
+Sitemap: https://dados-covid.github.io/srag/sitemap.xml
