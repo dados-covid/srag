@@ -3,7 +3,7 @@
 
 # In[1]:
 
-
+import os
 import sqlite3 as sql
 import pandas as pd
 
@@ -16,7 +16,8 @@ from srag_functions import *
 # df_srag = get_srag_data(years=[2019,2020,2021],update=False,treat=True,save_local=True)
 
 frames = []
-for year in [2019,2020,2021]:
+#for year in [2019,2020,2021]:
+for year in [2020,2021]:
     df = get_srag_data(years=[year],update=False,treat=True,save_local=False)
     df['ano'] = year
     frames.append(df)
@@ -32,7 +33,9 @@ print('df_srag.shape:',df_srag.shape)
 
 # In[5]:
 
-
+if not os.path.exists('data/opendatasus'):
+    os.mkdir('data/opendatasus')
+    
 db_name = 'srag'
 db_path = f'data/opendatasus/{db_name}.db'
 
