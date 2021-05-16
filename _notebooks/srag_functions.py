@@ -83,7 +83,7 @@ def set_age_ranges(x):
     else:
         return '80+'
 
-def treat_srag_data(df_orig,selected_columns='BASIC',aditional_columns=[]):
+def treat_srag_data(df_orig,selected_columns='',aditional_columns=[]):
     "Select columns, set types and replace values."
     
     not_valid_col = 'nd'
@@ -99,10 +99,13 @@ def treat_srag_data(df_orig,selected_columns='BASIC',aditional_columns=[]):
                       #'ID_MN_RESI','ID_MN_ITE','ID_MUNICIP',
                       'SUPORT_VEN', 'UTI','SATURACAO','FATOR_RISC']
     
-        if selected_columns == 'BASIC':
+        if selected_columns == 'BASIC' or not aditional_columns:
             cols = basic_cols
         else:
-            cols = basic_cols + list(aditional_columns)
+            if type(aditional_columns) is list:
+                cols = basic_cols + aditional_columns
+            else:
+                print('O parâmetro <aditional_columns> deve ser do tipo list')
             
         orig_cols = df_orig.columns
         for col in cols:
