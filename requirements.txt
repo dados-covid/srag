@@ -1,0 +1,5 @@
+bs4
+altair
+lxml
+odfpy
+matplotlib
