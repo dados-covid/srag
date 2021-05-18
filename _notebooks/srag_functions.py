@@ -42,10 +42,7 @@ def get_srag_data(years=[2021],update=True,save_local=True,treat=True,selected_c
         else:
             url = get_last_bd_srag_csv_url(year)
             print(f'\nDownloading from <{url}> ... ', end='')
-            if year == 2019:
-                sep = ','
-                print('\n\n Problema com leitura do arquivo. Não identifiquei qual.')
-            df = pd.read_csv(url,sep=sep,quotechar=quotechar,dtype=object)
+            df = pd.read_csv(url,sep=sep,quotechar=quotechar,dtype=object, encoding='latin1')
             if save_local:
                 df.to_csv(fname,index=False)
             print('complete!\n')
