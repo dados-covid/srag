@@ -220,7 +220,7 @@ def get_pivot_data(df,index_cols=[],columns_cols=[],values_cols='',last_week=999
                 df2[index_cols[i:]] = '--TODOS--'
                 df = pd.concat([df1,df2])
         
-    df['total'] = df.sum(axis=1)
+    df['total'] = df.sum(axis=1,numeric_only=True)
     df = df.reset_index()
     return df
 
@@ -366,7 +366,7 @@ def get_altair_chart(df,x_col,y_cols='ALL',cat_col=None,sel_cols=None, sliders=N
         
         chart = chart.transform_fold(
             columns,
-            as_=[y_col_name, 'Valor']
+            # as_=[y_col_name, 'Valor']
         ).transform_filter(
             sel  
         )
@@ -385,9 +385,18 @@ def get_altair_chart(df,x_col,y_cols='ALL',cat_col=None,sel_cols=None, sliders=N
         chart = chart.add_selection(sel)
     else:
         y_col = y_cols[0]
-        chart = chart.encode(
-            y=y_col
-        )        
+        if stack == 'normalize':
+            chart = chart.encode(
+                y=alt.Y(f"{y_col}:Q", stack="normalize"),
+            )
+        elif stack == 'sum':
+            chart = chart.encode(
+                y=f'sum({y_col}):Q',
+            )
+        else:
+            chart = chart.encode(
+                y=f'{y_col}:Q',
+             )
 
 #     TODO: adicionar filtro de range
 #     lower = chart.properties(
@@ -447,7 +456,7 @@ def get_altair_chart(df,x_col,y_cols='ALL',cat_col=None,sel_cols=None, sliders=N
     return chart
 
 
-def dataFrame2Chart(df,x_col,cat_col=None,sel_cols=None,selection_dict={},sliders=None,y_cols='ALL',chart_title='',ns_opacity=0.1,
+def dataFrame2Chart(df,x_col,cat_col=None,sel_cols=None,selection_dict={},sliders=None,y_cols=['tx_obito_concluido'],chart_title='',ns_opacity=0.1,
                     scheme ='lightmulti',mark_type='line',sort_values=False,naxis=1,total=True,stack=None,rates=True):
     print(f'Seleção {chart_title}:')
     for key,value in selection_dict.items():
