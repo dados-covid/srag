@@ -13,3 +13,4 @@ vendor
 .tweet-cache
 __pycache__
 _notebooks/data/opendatasus/
+.venv
