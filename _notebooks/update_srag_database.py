@@ -17,7 +17,7 @@ from srag_functions import *
 
 frames = []
 for year in [2019,2020,2021]:
-    df = get_srag_data(years=[year],update=False,treat=True,save_local=False)
+    df = get_srag_data(years=[year],update=True,treat=True,save_local=True)
     df['ano'] = year
     frames.append(df)
     
@@ -39,7 +39,7 @@ db_name = 'srag'
 db_path = f'data/opendatasus/{db_name}.db'
 
 conn = sql.connect(db_path)
-df_srag.to_sql(db_name, conn, index=False)
+df_srag.to_sql(db_name, conn, index=False, if_exists='replace')
 
 print(f'data base saved as {db_name}.db')
 
